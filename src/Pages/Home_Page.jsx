@@ -3,13 +3,15 @@
 import React from "react";
 import HeroImage from "../assets/Hero.png";
 import UpgradeProButton from "../Components/UpgradeProButton";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 const Home_Page = () => {
   const navigate = useNavigate()
 
   const handleSend = ()=>{
+    console.log("1")
     navigate("/dashboard")
+
   }
 
 
