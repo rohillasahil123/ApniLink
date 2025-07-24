@@ -36,11 +36,9 @@ const App = () => {
           <Route
             path="/"
             element={
-              <>
-                <Header />
+              <Layout>
                 <Home_Page />
-                <Footer />
-              </>
+              </Layout>
             }
           />
 
