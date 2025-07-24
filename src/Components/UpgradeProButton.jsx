@@ -1,11 +1,8 @@
-// src/components/UpgradeProButton.jsx
-
 import React from "react";
 
 const UpgradeProButton = () => {
   const handleUpgradeClick = () => {
-    // 👉 Instamojo redirect
-    window.location.href = "https://imjo.in/dbRNg5";
+    window.location.href = "https://upilink.in/api/?pa=rohillasahil704-1@okhdfcbank&pn=Sahil%20&cu=INR&am=89";
   };
 
   return (
