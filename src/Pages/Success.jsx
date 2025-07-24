@@ -1,6 +1,6 @@
 // src/pages/Success.jsx
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -10,6 +10,7 @@ import generateSlug from "../utils/generateSlug";
 const Success = () => {
   const navigate = useNavigate();
   const [user] = useAuthState(auth);
+  const [message, setMessage] = useState("⏳ Verifying your payment...");
 
   useEffect(() => {
     const markUserPro = async () => {
@@ -18,26 +19,35 @@ const Success = () => {
 
       if (paymentId && user) {
         try {
-          // 🔐 Step 1: Get user doc from Firestore
           const slug = generateSlug(user.displayName);
           const userRef = doc(db, "users", slug);
           const userSnap = await getDoc(userRef);
 
-          if (userSnap.exists() && !userSnap.data().isProUser) {
-            // ✅ Step 2: Update Firestore only if not already Pro
-            await updateDoc(userRef, {
-              isProUser: true,
-            });
-          }
+          if (userSnap.exists()) {
+            const userData = userSnap.data();
 
-          // 💾 Step 3: Update localStorage
-          localStorage.setItem("isPro", "true");
+            if (userData.isProUser) {
+              setMessage("✅ You’re already a Pro user!");
+            } else {
+              await updateDoc(userRef, {
+                isProUser: true,
+                paymentId: paymentId,
+                proActivatedAt: new Date().toISOString(),
+              });
+              localStorage.setItem("isPro", "true");
+              setMessage("🎉 Payment Successful! Welcome to Pro Plan 🚀");
+            }
+          } else {
+            setMessage("⚠️ User data not found in database.");
+          }
         } catch (err) {
           console.error("Failed to mark user as Pro:", err);
+          setMessage("❌ Something went wrong while upgrading.");
         }
+      } else {
+        setMessage("⚠️ Missing payment ID or user not logged in.");
       }
 
-      // 🔁 Step 4: Redirect to dashboard
       setTimeout(() => {
         navigate("/dashboard");
       }, 2500);
@@ -48,11 +58,9 @@ const Success = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4">
-      <h1 className="text-3xl font-bold text-green-600 mb-4">🎉 Payment Successful!</h1>
-      <p className="text-lg text-gray-700 mb-2">
-        Welcome to the <strong>Pro Plan</strong> 🚀
-      </p>
-      <p className="text-sm text-gray-500">Redirecting to your dashboard...</p>
+      <h1 className="text-2xl font-semibold text-green-600 mb-3">✅ Payment Status</h1>
+      <p className="text-lg text-gray-700 text-center">{message}</p>
+      <p className="text-sm text-gray-500 mt-2">Redirecting to your dashboard...</p>
     </div>
   );
 };

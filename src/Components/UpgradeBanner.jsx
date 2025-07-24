@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const UpgradeBanner = () => {
+  const navigate = useNavigate()
+
   const handleUpgrade = () => {
-    window.location.href =  "https://imjo.in/dbRNg5";
+    navigate("/upgrade")
   };
 
   return (
