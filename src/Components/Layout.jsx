@@ -7,7 +7,7 @@ import Footer from "../Pages/Footer";
 const Layout = ({ children }) => {
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      {/* Top Header */}
+
       <Header />
 
       {/* Page content */}
