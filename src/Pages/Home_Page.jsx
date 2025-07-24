@@ -3,17 +3,24 @@
 import React from "react";
 import HeroImage from "../assets/Hero.png";
 import UpgradeProButton from "../Components/UpgradeProButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Home_Page = () => {
+  const navigate = useNavigate()
+
+  const handleSend = ()=>{
+    navigate("/dashboard")
+  }
+
+
   return (
     <>
       <main className="bg-white text-gray-900">
 
-        {/* 🚀 HERO */}
+      
         <section className="py-20 px-6 md:px-20 bg-gradient-to-br from-purple-100 via-white to-indigo-100">
           <div className="grid md:grid-cols-2 items-center gap-12">
-            {/* LEFT */}
+        
             <div className="space-y-6 text-center md:text-left">
               <h1 className="text-5xl md:text-6xl font-extrabold leading-tight text-gray-900">
                 Your Entire Digital Life<br />
@@ -22,10 +29,10 @@ const Home_Page = () => {
               <p className="text-lg text-gray-700">
                 Share your bio link, social links, YouTube, and more in one beautiful, customizable landing page.
               </p>
-              <button className="bg-purple-600 text-white px-8 py-3 rounded-full font-semibold text-lg hover:bg-purple-700 transition">
-                <Link to='/dashboard'>
+              <button className="bg-purple-600 text-white px-8 py-3 rounded-full font-semibold text-lg hover:bg-purple-700 transition" onClick={handleSend} >
+               
                 Get Started Free
-                </Link>
+               
               </button>
               <p className="text-sm text-gray-500">No credit card needed 💳</p>
             </div>

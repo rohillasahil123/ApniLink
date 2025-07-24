@@ -5,6 +5,7 @@ import { useUser } from "../context/UserContext";
 import ProBadge from "../Components/ProBadge";
 import { Link, useLocation } from "react-router-dom";
 import { LogOut } from "lucide-react";
+import logo from "../assets/ApniLink_Logo.png"
 
 const Header = () => {
   const { user, isPro } = useUser();
@@ -21,8 +22,8 @@ const Header = () => {
         
         {/* 🔷 Left - Logo */}
         <Link to="/" className="flex items-center gap-2">
-          <img src="/logo.png" alt="logo" className="w-8 h-8" />
-          <span className="text-xl font-bold text-blue-600">ApniLink</span>
+          <img src={logo} alt="logo" className="w-16 h-16" />
+          {/* <span className="text-xl font-bold text-blue-600">ApniLink</span> */}
         </Link>
 
         {/* 🔗 Center - Nav Links */}
