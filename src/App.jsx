@@ -19,9 +19,6 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 import { UserProvider } from "./context/UserContext";
 import Layout from "./Components/Layout";
 
-// ✅ Direct Header & Footer import for Home Page
-import Header from "./Pages/Header";
-import Footer from "./Pages/Footer";
 
 const App = () => {
   return (
@@ -29,10 +26,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
 
-          {/* 🟢 Public Routes */}
           <Route path="/login" element={<Login />} />
-
-          {/* 🏠 Home Page with Header + Footer */}
           <Route
             path="/"
             element={
@@ -47,7 +41,7 @@ const App = () => {
           <Route path="/:username" element={<PublicPage />} />
           <Route path="/pro-only" element={<NotPro />} />
 
-          {/* 🔐 Protected Routes with Layout (includes Header/Footer inside Layout) */}
+       
           <Route
             path="/dashboard"
             element={
@@ -80,8 +74,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-
-          {/* 🔁 Redirect */}
+    
           <Route path="/home" element={<Navigate to="/dashboard" />} />
 
         </Routes>
