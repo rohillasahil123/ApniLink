@@ -45,12 +45,12 @@ const Header = () => {
           </span>
           {isPro && <ProBadge />}
 
-          <Link
+          {/* <Link
             to="/settings"
             className="text-gray-600 text-sm hover:text-blue-600"
           >
             Settings
-          </Link>
+          </Link> */}
 
           <button
             onClick={handleLogout}
