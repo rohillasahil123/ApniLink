@@ -4,8 +4,8 @@ import { doc, updateDoc, increment } from "firebase/firestore";
 
 /**
  * 🔥 Tracks a link click in Firestore
- * @param {string} userId - The UID of the user who owns the link
- * @param {string} linkId - The document ID of the link inside Firestore
+ * @param {string} userId
+ * @param {string} linkId
  */
 export const trackClick = async (userId, linkId) => {
   if (!userId || !linkId) {

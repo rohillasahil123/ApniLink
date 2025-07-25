@@ -28,6 +28,12 @@ const Dashboard = () => {
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
+  useEffect(()=>{
+    console.log("3")
+  },[])
+
+
   // 🚀 Load Links
   useEffect(() => {
     if (!user) return;
