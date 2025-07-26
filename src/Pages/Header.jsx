@@ -48,13 +48,16 @@ const Header = () => {
 
         {/* 👤 Right - User Info (Desktop) */}
         <div className="hidden md:flex items-center gap-3">
-          <Link
-            to={`/${user?.username}`}
-            className="hidden sm:block font-medium text-gray-800 hover:text-blue-600 transition"
-          >
+          <span className="hidden sm:block font-medium text-gray-800">
             {user?.name || "Welcome"}
-          </Link>
+          </span>
           {isPro && <ProBadge />}
+          <Link
+            to={`/${user?.username || ""}`}
+            className="text-blue-500 text-sm font-semibold hover:underline"
+          >
+            Profile
+          </Link>
           <button onClick={handleLogout} title="Logout" className="text-red-500 hover:text-red-700">
             <LogOut className="w-5 h-5" />
           </button>
@@ -63,7 +66,7 @@ const Header = () => {
 
       {/* 📱 Mobile Nav Drawer */}
       {menuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-md px-4 py-4 space-y-3 text-sm text-gray-700 z-40">
+        <div className="md:hidden absolute top-full left-0 w-full bg-white shadow-md px-4 py-4 space-y-3 text-sm text-gray-700 z-40 flex flex-col">
           <Link to="/" onClick={toggleMenu} className={navClass(location.pathname === "/")}>Home</Link>
           <Link to="/dashboard" onClick={toggleMenu} className={navClass(location.pathname === "/dashboard")}>My Links</Link>
           <Link to="/analytics" onClick={toggleMenu} className={navClass(location.pathname === "/analytics")}>Analytics</Link>
@@ -72,14 +75,15 @@ const Header = () => {
               Upgrade to Pro 💎
             </Link>
           )}
+          <Link
+            to={`/${user?.username || ""}`}
+            onClick={toggleMenu}
+            className="text-blue-500 font-semibold hover:underline"
+          >
+            Profile
+          </Link>
           <div className="flex items-center justify-between pt-3 border-t">
-            <Link
-              to={`/${user?.username}`}
-              onClick={toggleMenu}
-              className="text-gray-800 hover:text-blue-600 transition"
-            >
-              {user?.name || "Welcome"}
-            </Link>
+            <span className="text-gray-800">{user?.name || "Welcome"}</span>
             <button onClick={handleLogout} title="Logout" className="text-red-500 hover:text-red-700">
               <LogOut className="w-5 h-5" />
             </button>

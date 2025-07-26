@@ -103,7 +103,7 @@ const Home_Page = () => {
             />
             <PricingCard
               plan="Pro"
-              price="₹89/mo"
+              price="₹99/mo"
               features={[
                 "All Free Features",
                 "Click Analytics",
