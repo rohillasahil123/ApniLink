@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import UpgradeProButton from "../Components/UpgradeProButton"; // ✅ Lowercase path
+import UpgradeProButton from "../Components/UpgradeProButton"; 
 
 const ProPage = () => {
   const navigate = useNavigate();
