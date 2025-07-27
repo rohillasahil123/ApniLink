@@ -17,6 +17,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 import UpgradeBanner from "../Components/UpgradeBanner";
 import { trackClick } from "../utils/analytics";
+import ThemeCustomizer from "../Components/ThemeCustomizer"; // ✅ import added
 
 const Dashboard = () => {
   const [user] = useAuthState(auth);
@@ -27,12 +28,11 @@ const Dashboard = () => {
   const [url, setUrl] = useState("");
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showCustomizer, setShowCustomizer] = useState(false); // ✅ for theme modal
 
-
-  useEffect(()=>{
-    console.log("3")
-  },[])
-
+  useEffect(() => {
+    console.log("3");
+  }, []);
 
   // 🚀 Load Links
   useEffect(() => {
@@ -109,14 +109,24 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-4 max-w-xl mx-auto">
+    <div className="p-4 max-w-xl mx-auto relative">
       <Toaster />
 
       {/* 🔹 Header */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">🚀 Dashboard</h2>
-   
+        <button
+          onClick={() => setShowCustomizer(true)}
+          className="text-sm bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700 transition"
+        >
+          🎨 Customize Theme
+        </button>
       </div>
+
+      {/* 🔹 Theme Customizer Popup */}
+      {showCustomizer && (
+        <ThemeCustomizer onClose={() => setShowCustomizer(false)} />
+      )}
 
       {/* 🔹 Show Upgrade Banner for Free Users */}
       {!isPro && <UpgradeBanner />}

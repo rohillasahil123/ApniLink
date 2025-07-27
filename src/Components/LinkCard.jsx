@@ -1,27 +1,22 @@
+// src/Components/LinkCard.jsx
+
 import React from "react";
-import { doc, updateDoc, increment, getDoc } from "firebase/firestore";
+import { doc, updateDoc, increment } from "firebase/firestore";
 import { db } from "../firebase";
 import { motion } from "framer-motion";
 import { useUser } from "../context/UserContext";
+import { useTheme } from "../context/ThemeContext";
 
-const LinkCard = ({ link, username, showDelete = false, onDelete }) => {
+const LinkCard = ({ link, uid, showDelete = false, onDelete }) => {
   const { isPro } = useUser();
+  const { theme } = useTheme();
 
   const handleClick = async () => {
     try {
-      // 🔐 Step 1: Get UID from username
-      const userRef = doc(db, "users", username);
-      const userSnap = await getDoc(userRef);
-      if (!userSnap.exists()) return;
-
-      const uid = userSnap.data().uid;
-
-      // 📊 Step 2: Track Clicks
-      await updateDoc(doc(db, "links", uid, "items", link.id), {
+      const ref = doc(db, "links", uid, "items", link.id);
+      await updateDoc(ref, {
         clicks: increment(1),
       });
-
-      // 🌐 Step 3: Open Link
       window.open(link.url, "_blank");
     } catch (error) {
       console.error("Error tracking click:", error);
@@ -33,21 +28,20 @@ const LinkCard = ({ link, username, showDelete = false, onDelete }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="flex justify-between items-center bg-white p-4 mb-3 rounded-xl shadow hover:shadow-md hover:bg-blue-50 transition-all cursor-pointer"
+      className={`flex justify-between items-center p-4 mb-3 rounded-xl shadow cursor-pointer transition-all
+        ${theme === "dark" ? "bg-zinc-800 text-white hover:bg-zinc-700" : "bg-white text-gray-800 hover:bg-blue-50"}`}
     >
-      {/* 🔗 Link Content */}
       <div onClick={handleClick} className="flex-1">
-        <p className="font-semibold text-gray-800">{link.title}</p>
-        <p className="text-blue-500 text-sm truncate">{link.url}</p>
+        <p className="font-semibold">{link.title}</p>
+        <p className="text-sm truncate text-blue-500">{link.url}</p>
 
         {isPro && (
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs mt-1 text-gray-500 dark:text-gray-400">
             🔥 Clicks: {link.clicks || 0}
           </p>
         )}
       </div>
 
-      {/* ❌ Delete Button (if allowed) */}
       {showDelete && (
         <button
           onClick={onDelete}

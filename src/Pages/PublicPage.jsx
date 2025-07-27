@@ -1,6 +1,8 @@
+// src/Pages/PublicPage.jsx
+
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import logo from "../assets/ApniLink_Logo.png"
+import logo from "../assets/ApniLink_Logo.png";
 import { db } from "../firebase";
 import {
   collection,
@@ -11,12 +13,14 @@ import {
   orderBy,
 } from "firebase/firestore";
 import LinkCard from "../Components/LinkCard";
+import { useTheme } from "../context/ThemeContext";
 
 const PublicPage = () => {
   const { username } = useParams();
   const [links, setLinks] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,40 +58,49 @@ const PublicPage = () => {
     fetchData();
   }, [username]);
 
-if (loading) {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
-      <div className="relative w-24 h-24">
-       
-        <div className="absolute inset-0 border-4 border-indigo-300 border-t-transparent rounded-full animate-spin"></div>
-        <img
-          src={logo}
-          className="w-16 h-16 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-cover"
-        />
+  if (loading) {
+    return (
+      <div
+        className={`min-h-screen flex items-center justify-center ${
+          theme === "dark" ? "bg-zinc-900" : "bg-white"
+        }`}
+      >
+        <div className="relative w-24 h-24">
+          <div className="absolute inset-0 border-4 border-indigo-300 border-t-transparent rounded-full animate-spin"></div>
+          <img
+            src={logo}
+            className="w-16 h-16 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-cover"
+          />
+        </div>
       </div>
-    </div>
-  );
-}
-
+    );
+  }
 
   if (!userInfo) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div
+        className={`min-h-screen flex items-center justify-center ${
+          theme === "dark" ? "bg-zinc-900 text-red-400" : ""
+        }`}
+      >
         <p className="text-red-500">⚠️ User not found</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center p-6 bg-gray-50">
-     
+    <div
+      className={`min-h-screen flex flex-col items-center p-6 ${
+        theme === "dark" ? "bg-zinc-900 text-white" : "bg-gray-50"
+      }`}
+    >
       <img
         src={userInfo.photoURL}
         alt={userInfo.name}
         className="w-24 h-24 rounded-full mb-4 border-4 border-indigo-300"
       />
       <h2 className="text-2xl font-bold mb-1">{userInfo.name}</h2>
-      <p className="text-gray-600 mb-4 text-center max-w-md">
+      <p className="text-gray-600 dark:text-gray-400 mb-4 text-center max-w-md">
         {userInfo.bio || "Welcome to my link page!"}
       </p>
 
@@ -103,10 +116,12 @@ if (loading) {
       <div className="w-full max-w-md">
         {links.length > 0 ? (
           links.map((link) => (
-            <LinkCard key={link.id} link={link} username={username} />
+            <LinkCard key={link.id} link={link} uid={userInfo.uid} />
           ))
         ) : (
-          <p className="text-gray-400 text-center">No links added yet!</p>
+          <p className="text-gray-400 text-center dark:text-gray-500">
+            No links added yet!
+          </p>
         )}
       </div>
     </div>
