@@ -70,6 +70,7 @@ const PublicPage = () => {
           <img
             src={logo}
             className="w-16 h-16 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-cover"
+            alt="Logo"
           />
         </div>
       </div>
@@ -91,7 +92,7 @@ const PublicPage = () => {
   return (
     <div
       className={`min-h-screen flex flex-col items-center p-6 ${
-        theme === "dark" ? "bg-zinc-900 text-white" : "bg-gray-50"
+        theme === "dark" ? "bg-zinc-900 text-white" : "bg-gray-50 text-gray-900"
       }`}
     >
       <img

@@ -10,12 +10,12 @@ const Layout = ({ children }) => {
 
       <Header />
 
-      {/* Page content */}
+    
       <main className="flex-grow px-4 md:px-20 py-10">
         {children}
       </main>
 
-      {/* Bottom Footer */}
+
       <Footer />
     </div>
   );
